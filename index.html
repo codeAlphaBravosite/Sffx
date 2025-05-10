@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional SFX Search Cheat Sheet for Editors</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007bff; /* Professional Blue */
+            --secondary-color: #6c757d; /* Muted Grey */
+            --accent-color: #17a2b8; /* Teal Accent */
+            --background-color: #f8f9fa; /* Light Grey BG */
+            --card-background-color: #ffffff; /* White Card BG */
+            --text-color: #212529; /* Dark Grey Text */
+            --text-muted-color: #6c757d; /* Muted Text */
+            --border-color: #dee2e6; /* Light Border */
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --font-primary: 'Roboto', sans-serif;
+            --font-secondary: 'Lato', sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: var(--card-background-color);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            margin-top: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            color: var(--text-muted-color);
+        }
+
+        .sfx-category {
+            margin-bottom: 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .sfx-category:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .sfx-category[open] {
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.15);
+        }
+
+        .sfx-category summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 25px;
+            font-weight: 500;
+            font-size: 1.25em;
+            background-color: #fdfdff; /* Slightly off-white for summary */
+            color: var(--primary-color);
+            cursor: pointer;
+            outline: none;
+            list-style: none; /* Remove default marker */
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid transparent; /* Placeholder for open state */
+        }
+        
+        .sfx-category[open] summary {
+            background-color: #f0f6ff; /* Light blue tint when open */
+            color: #0056b3; /* Darker blue text when open */
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sfx-category summary:hover {
+            background-color: #e9f2ff;
+        }
+
+        .sfx-category summary::-webkit-details-marker {
+            display: none; /* Hide default marker for Webkit */
+        }
+
+        .sfx-category summary .summary-title {
+            flex-grow: 1;
+        }
+        
+        .sfx-category summary .summary-icon {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+            margin-left: 15px;
+            fill: var(--primary-color);
+        }
+        
+        .sfx-category[open] summary .summary-icon {
+            transform: rotate(90deg);
+            fill: #0056b3;
+        }
+
+        .sfx-content {
+            padding: 20px 25px;
+            background-color: var(--card-background-color);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sfx-content h3 {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            margin-top: 0;
+        }
+
+        .sfx-content ul {
+            list-style-type: none; /* Remove default bullets */
+            padding-left: 0;
+        }
+
+        .sfx-content li {
+            margin-bottom: 10px;
+            color: var(--text-color);
+            font-size: 1em;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .sfx-content li::before {
+            content: '◆'; /* Diamond bullet */
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-size: 0.9em;
+            line-height: inherit;
+        }
+
+        .bonus-tip, .general-tips-section {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #e6f7ff; /* Light teal background */
+            border: 1px solid #b3e0f2; /* Teal border */
+            border-left: 5px solid var(--accent-color);
+            border-radius: 8px;
+            color: #07475f; /* Darker teal text */
+        }
+
+        .bonus-tip h3, .general-tips-section h3 {
+            font-family: var(--font-secondary);
+            margin-top: 0;
+            color: #05384d;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+        
+        .bonus-tip p, .general-tips-section p, .general-tips-section li {
+            color: #07475f;
+            font-size: 1em;
+        }
+
+        .general-tips-section ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .general-tips-section li {
+            padding-left: 0; /* Reset padding from sfx-content li */
+            margin-bottom: 8px;
+        }
+        .general-tips-section li::before {
+            content: none; /* Remove diamond from general tips list */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+                margin-top: 10px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+            .header p {
+                font-size: 1em;
+            }
+            .sfx-category summary {
+                padding: 15px 20px;
+                font-size: 1.15em;
+            }
+            .sfx-content {
+                padding: 15px 20px;
+            }
+            .sfx-content li {
+                font-size: 0.95em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.7em;
+            }
+            .header p {
+                font-size: 0.9em;
+            }
+            .sfx-category summary {
+                font-size: 1.05em;
+                padding: 12px 15px;
+            }
+             .sfx-category summary .summary-icon {
+                width: 20px;
+                height: 20px;
+            }
+            .sfx-content {
+                padding: 12px 15px;
+            }
+            .sfx-content li {
+                font-size: 0.9em;
+                padding-left: 20px;
+            }
+             .bonus-tip, .general-tips-section {
+                padding: 20px;
+            }
+             .bonus-tip h3, .general-tips-section h3 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>SFX Search Cheat Sheet</h1>
+            <p>Your go-to guide for finding the perfect sound effects for your edits.</p>
+        </header>
+
+        <details class="sfx-category" open>
+            <summary>
+                <span class="summary-title">1. Text Appears (Pop, Fade, Slide, Type)</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>UI click, simple click</li>
+                    <li>pop sound, soft pop</li>
+                    <li>blip, short blip</li>
+                    <li>typewriter key, keyboard click</li>
+                    <li>text reveal, digital reveal</li>
+                    <li>data pop, info pop</li>
+                    <li>swoosh short, quick whoosh (for slide)</li>
+                    <li>fade in sound (for fade)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">2. Camera Pushes / Maps Zoom In or Out</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>cinematic whoosh, deep whoosh</li>
+                    <li>whoosh rise, riser whoosh</li>
+                    <li>fast swoosh, quick whip</li>
+                    <li>zoom in fx, zoom out fx</li>
+                    <li>air pass by, wind rush</li>
+                    <li>subtle movement, low rumble (for slow push)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">3. Scene Change / B-Roll Cut / Chart Transition</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>transition whoosh, smooth whoosh</li>
+                    <li>swipe sound, whip pan sfx</li>
+                    <li>swoosh, soft swoosh</li>
+                    <li>riser short, tension riser</li>
+                    <li>slide whoosh, data slide</li>
+                    <li>glitch transition, digital stutter</li>
+                    <li>camera shutter (for quick cuts)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">4. Dramatic Reveal (Stat, Title, Punchy Visual)</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>impact hit, punchy impact</li>
+                    <li>cinematic boom, deep boom</li>
+                    <li>bass drop, sub drop</li>
+                    <li>whoosh to hit, swoosh impact</li>
+                    <li>percussion hit, orchestral hit</li>
+                    <li>stinger, accent sound</li>
+                    <li>dark drone (for building tension before reveal)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">5. Timeline / History Flashback</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>tape rewind, vhs rewind</li>
+                    <li>film reel, film projector sound</li>
+                    <li>vintage projector click</li>
+                    <li>clock tick, grandfather clock</li>
+                    <li>old radio fx, radio static</li>
+                    <li>harp glissando, ethereal sweep (for dreamy flashback)</li>
+                    <li>reverse cymbal, reverse piano</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">6. Futuristic Interface / Techy Data / Cleo Abram-style Visual</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>futuristic UI, hi-tech UI</li>
+                    <li>sci-fi beep, computer beep</li>
+                    <li>digital interface, HUD sound</li>
+                    <li>hologram whoosh, hologram activate</li>
+                    <li>glitch pop, digital glitch</li>
+                    <li>data stream, server hum</li>
+                    <li>power up, power down sfx</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">7. Emphasize a Point in Voiceover (Micro Movement or Detail)</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>tick, subtle tick</li>
+                    <li>click soft, mouse click gentle</li>
+                    <li>notch, small notch</li>
+                    <li>ping, subtle ping</li>
+                    <li>pop subtle, soft pop</li>
+                    <li>pencil scratch, pen writing</li>
+                    <li>highlight sound, selection sound</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">8. Ambient Background (to make it not feel empty under VO)</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>room tone, quiet room</li>
+                    <li>office ambience, distant typing</li>
+                    <li>city sound, urban ambience (distant)</li>
+                    <li>nature ambience, gentle wind, birds distant</li>
+                    <li>subtle background noise, low hum</li>
+                    <li>library atmosphere, coffee shop distant</li>
+                    <li>computer fan, server room hum (for tech contexts)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">9. Common SFX Search Modifiers</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>Combine with primary terms:</h3>
+                <ul>
+                    <li>short / long</li>
+                    <li>fast / slow</li>
+                    <li>clean / dirty / distorted</li>
+                    <li>subtle / impactful / punchy</li>
+                    <li>digital / organic / acoustic</li>
+                    <li>light / heavy / deep</li>
+                    <li>single / multiple / swarm</li>
+                    <li>bright / dark / muffled</li>
+                    <li>rising / falling</li>
+                    <li>cinematic / game / UI</li>
+                </ul>
+                <p style="margin-top:15px; font-size:0.9em; color:var(--text-muted-color);"><em>Example: "whoosh short clean" or "impact deep cinematic"</em></p>
+            </div>
+        </details>
+        
+        <div class="general-tips-section">
+            <h3>Quick Tips for Effective SFX Usage</h3>
+            <ul>
+                <li><strong>Context is King:</strong> The best SFX feels natural and enhances the visual, rather than distracting from it.</li>
+                <li><strong>Less is More:</strong> Don't overcrowd your audio. A few well-placed, high-quality sounds are better than many mediocre ones.</li>
+                <li><strong>Layering:</strong> Combine multiple subtle sounds to create a richer, more unique effect (e.g., a whoosh + a subtle metallic shimmer).</li>
+                <li><strong>Volume & EQ:</strong> Always adjust the volume and EQ of your SFX to sit well in the mix with dialogue, music, and other sounds. Don't let SFX overpower dialogue.</li>
+                <li><strong>Stereo Field:</strong> Use panning to match SFX to on-screen action (e.g., a car passing from left to right).</li>
+                <li><strong>Experiment:</strong> Try different sounds for the same action. Sometimes the unexpected choice works best.</li>
+                <li><strong>Consistency:</strong> If you use a particular sound for a recurring element (like a specific type of text animation), try to use it consistently.</li>
+            </ul>
+        </div>
+
+        <div class="bonus-tip">
+            <h3>Bonus Tip: Sound Libraries</h3>
+            <p>Use libraries like Artlist, Epidemic Sound, Mixkit, or Envato Elements. They often suggest related terms and have high-quality, curated collections that can speed up your search significantly!</p>
+        </div>
+
+    </div>
+</body>
+</html>
