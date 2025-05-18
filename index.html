@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFX Search & Organization Cheat Sheet - Modern Look</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563EB; /* New Blue (e.g., Tailwind Blue 600) */
+            --secondary-color: #4B5563; /* New Grey (e.g., Tailwind Gray 600) */
+            --accent-color: #10B981; /* New Teal/Green (e.g., Tailwind Emerald 500) */
+            --background-color: #F3F4F6; /* Lighter Grey BG (e.g., Tailwind Gray 100) */
+            --card-background-color: #FFFFFF; /* White Card BG */
+            --text-color: #1F2937; /* Darker Grey Text (e.g., Tailwind Gray 800) */
+            --text-muted-color: #6B7280; /* Muted Text (e.g., Tailwind Gray 500) */
+            --border-color: #D1D5DB; /* Light Border (e.g., Tailwind Gray 300) */
+            --border-color-light: #E5E7EB; /* Even Lighter Border (e.g., Tailwind Gray 200) */
+            --shadow-color-light: rgba(0, 0, 0, 0.03);
+            --shadow-color-medium: rgba(0, 0, 0, 0.07);
+            --font-primary: 'Roboto', sans-serif;
+            --font-secondary: 'Lato', sans-serif; /* For headings */
+            --border-radius-sm: 6px;
+            --border-radius-md: 10px;
+            --border-radius-lg: 16px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            background-color: var(--card-background-color);
+            padding: 40px 50px; /* Increased padding */
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 20px 25px -5px var(--shadow-color-medium), 0 10px 10px -5px var(--shadow-color-light); /* Softer, more modern shadow */
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px; /* Increased margin */
+        }
+
+        .header h1 {
+            font-family: var(--font-secondary);
+            font-weight: 700;
+            font-size: 2.8em; /* Slightly larger */
+            color: var(--text-color); /* Darker for strong presence */
+            margin-bottom: 15px;
+        }
+
+        .header p {
+            font-size: 1.15em;
+            color: var(--text-muted-color);
+            max-width: 650px; /* Limit width for better readability */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sfx-category {
+            margin-bottom: 15px; /* Space between accordions */
+            border: 1px solid var(--border-color-light); /* Lighter border */
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+        }
+
+        .sfx-category:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.08);
+        }
+
+        .sfx-category[open] {
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.1);
+        }
+
+        .sfx-category summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px; /* Increased padding */
+            font-weight: 500;
+            font-size: 1.2em;
+            background-color: var(--card-background-color);
+            color: var(--text-color);
+            cursor: pointer;
+            outline: none;
+            list-style: none; /* Remove default marker */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+
+        .sfx-category[open] summary {
+            background-color: #F9FAFB; /* Very light grey (Tailwind Gray 50) */
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color-light); /* Separator when open */
+        }
+
+        .sfx-category summary:hover {
+            background-color: #F9FAFB; /* Light hover */
+            color: var(--primary-color);
+        }
+
+        .sfx-category summary::-webkit-details-marker {
+            display: none; /* Hide default marker for Webkit */
+        }
+
+        .sfx-category summary .summary-title {
+            flex-grow: 1;
+        }
+
+        .sfx-category summary .summary-icon {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease, fill 0.2s ease-in-out;
+            margin-left: 15px;
+            fill: var(--secondary-color); /* Muted icon color */
+        }
+
+        .sfx-category[open] summary .summary-icon,
+        .sfx-category summary:hover .summary-icon {
+            transform: rotate(90deg);
+            fill: var(--primary-color);
+        }
+         .sfx-category[open] summary:hover .summary-icon { /* Keep rotation if open and hovered */
+             transform: rotate(90deg);
+         }
+
+
+        .sfx-content {
+            padding: 25px 30px; /* Generous padding */
+            background-color: #fdfdfe; /* Slightly off-white, almost imperceptible */
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sfx-content h3 {
+            font-size: 1.1em;
+            font-weight: 600; /* Bolder for sub-headings */
+            color: var(--accent-color);
+            margin-bottom: 18px; /* More space */
+            margin-top: 0;
+        }
+
+        .sfx-content ul {
+            list-style-type: none;
+            padding-left: 5px; /* Slight indent for list */
+        }
+
+        .sfx-content li {
+            margin-bottom: 12px; /* More space between items */
+            color: var(--text-color);
+            font-size: 1em;
+            padding-left: 28px; /* Space for custom bullet */
+            position: relative;
+        }
+
+        .sfx-content li::before {
+            content: '▹'; /* Right-pointing triangle, softer than diamond */
+            position: absolute;
+            left: 5px;
+            color: var(--accent-color);
+            font-size: 1.1em; /* Adjusted for new char */
+            line-height: inherit;
+            transition: color 0.2s ease;
+        }
+        .sfx-content li:hover::before {
+            color: var(--primary-color); /* Subtle interaction */
+        }
+
+        /* Styling for Tip/Info Sections (Unified Modern Look) */
+        .info-section {
+            margin-top: 50px; /* More separation */
+            padding: 35px 30px; /* Increased padding */
+            background-color: var(--card-background-color); /* Blends with container */
+            border: 1px solid var(--border-color-light); /* Subtle definition */
+            border-radius: var(--border-radius-md);
+            color: var(--text-color);
+        }
+
+        .info-section h3 { /* Main heading for these sections */
+            font-family: var(--font-secondary);
+            color: var(--primary-color);
+            font-size: 1.75em; /* Prominent heading */
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 30px; /* More space below */
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block; /* Border fits text */
+        }
+
+        .info-section p, .info-section li {
+            color: var(--text-color);
+            font-size: 1em;
+            line-height: 1.8; /* Slightly more line height for dense text */
+        }
+         .info-section p {
+            margin-bottom: 15px;
+         }
+
+        .info-section strong { /* General strong tag emphasis */
+            color: var(--text-color); /* Keep it dark for emphasis */
+            font-weight: 600;
+        }
+
+        .info-section ul { /* General lists in info sections */
+            list-style-type: none;
+            padding-left: 5px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-section ul li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .info-section ul li::before {
+            content: '•'; /* Standard filled circle */
+            position: absolute;
+            left: 5px;
+            color: var(--accent-color);
+            font-size: 1.2em;
+            line-height: inherit;
+        }
+
+        /* Specific styles for SFX Organization Section */
+        .sfx-organization-section h4 {
+            font-family: var(--font-secondary);
+            font-size: 1.35em; /* Larger sub-category titles */
+            color: var(--text-color);
+            font-weight: 600;
+            margin-top: 35px; /* More space */
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+         .sfx-organization-section h4:first-of-type {
+             margin-top: 10px;
+         }
+
+        .sfx-folder-entry {
+            margin-bottom: 25px;
+        }
+        .sfx-folder-entry > p:first-child strong { /* Folder name e.g., "1. Ambience/" */
+             color: var(--primary-color);
+             font-weight: 600;
+             font-size: 1.1em; /* Make folder name prominent */
+        }
+        .sfx-folder-entry p:nth-of-type(2) { /* "Why?" paragraph */
+            color: var(--text-muted-color);
+            font-style: italic;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        .sfx-folder-entry p:nth-of-type(2) strong { /* The "Why?" text itself */
+            font-style: normal;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        .sfx-folder-entry p:nth-of-type(3) strong { /* "Examples inside:" */
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .sfx-folder-entry em { /* For "Use when:" and content within "Why?" */
+            font-size: 0.95em;
+            color: var(--text-muted-color);
+            font-style: italic;
+        }
+        .sfx-folder-entry > p:last-of-type em { /* Specifically "Use when:" text */
+            display: block; /* Puts it on its own line for clarity */
+            margin-top: 8px;
+        }
+
+        .sfx-folder-entry ul { /* Sub-lists of examples */
+            margin-top: 8px;
+            margin-bottom: 8px;
+            list-style-type: none;
+            padding-left: 15px;
+        }
+         .sfx-folder-entry ul li {
+            font-size: 0.95em;
+            padding-left: 20px; /* Space for custom bullet */
+         }
+         .sfx-folder-entry ul li::before {
+            content: '-'; /* Simple dash for sub-items */
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+         }
+
+
+        /* Styles for Background Music SOP Section */
+        .music-sop-section h4 { /* Inherits .sfx-organization-section h4 styles */
+            /* font-size: 1.35em; color: var(--text-color); etc. */
+        }
+        .music-sop-section h4:first-of-type {
+            margin-top: 20px;
+        }
+        .music-sop-section > p { /* For Objective and Audience paragraphs */
+             margin-bottom: 12px;
+             line-height: 1.7;
+        }
+         .music-sop-section > p strong {
+             color: var(--text-color);
+             font-weight: 600;
+         }
+
+        .music-sop-section ol.procedure-list {
+            list-style-type: decimal;
+            margin-left: 5px; /* Align with other content */
+            padding-left: 30px; /* Space for numbers */
+            margin-bottom: 30px;
+        }
+        .music-sop-section ol.procedure-list li {
+            margin-bottom: 10px;
+            color: var(--text-color);
+            font-size: 1em;
+        }
+        .music-sop-section ol.procedure-list li::before {
+            content: none;
+        }
+
+        .music-theme-entry {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid var(--border-color-light); /* Lighter, solid separator */
+        }
+        .music-theme-entry:last-of-type {
+            border-bottom: none;
+            margin-bottom: 15px;
+        }
+
+        .music-theme-entry h5 {
+            font-family: var(--font-secondary);
+            font-size: 1.25em; /* Prominent theme titles */
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-top: 15px;
+            margin-bottom: 18px; /* More space */
+        }
+
+        .music-theme-entry p {
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+        /* Styles the labels like "Desired Viewer Emotion (Tone):" */
+        .music-theme-entry p > strong:first-child {
+            color: var(--text-color); /* Darker label */
+            font-weight: 500; /* Roboto 500 */
+            display: block; /* Label on its own line */
+            margin-bottom: 5px; /* Space after label */
+        }
+
+        .music-theme-entry ul { /* Keyword lists */
+            list-style-type: none;
+            padding-left: 0;
+            margin-left: 0; /* Align with p */
+            margin-top: 8px;
+            margin-bottom: 15px;
+        }
+        .music-theme-entry ul li {
+            margin-bottom: 8px;
+            color: var(--text-color);
+            font-size: 0.95em;
+            padding-left: 22px; /* Space for custom bullet */
+            position: relative;
+        }
+        .music-theme-entry ul li::before {
+            content: '›'; /* Single right-pointing angle quotation mark */
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2em; /* Make it slightly more visible */
+            top: -1px; /* Fine-tune alignment */
+        }
+
+        .music-sop-section .final-check {
+            margin-top: 30px;
+            padding: 25px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color-light);
+            background-color: #F9FAFB; /* Light accent background */
+            border-radius: var(--border-radius-sm);
+            color: var(--text-muted-color);
+            font-style: normal; /* Removed italic for cleaner look */
+        }
+        .music-sop-section .final-check strong {
+            font-style: normal;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        /* Quick Tips Section specific list styling */
+        .general-tips-section ul li::before {
+            content: '✓'; /* Checkmark for tips */
+            position: absolute;
+            left: 5px;
+            color: var(--accent-color);
+            font-size: 1.1em; /* Adjusted size for checkmark */
+            line-height: inherit;
+        }
+        .bonus-tip p {
+            line-height: 1.8;
+        }
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .container {
+                padding: 25px 20px; /* Reduced padding */
+                margin-top: 20px;
+                margin-bottom: 30px;
+            }
+            .header h1 {
+                font-size: 2.2em;
+            }
+            .header p {
+                font-size: 1.05em;
+            }
+            .sfx-category summary {
+                padding: 18px 20px;
+                font-size: 1.1em;
+            }
+            .sfx-content {
+                padding: 20px;
+            }
+            .sfx-content li {
+                font-size: 0.95em;
+            }
+            .info-section {
+                padding: 25px 20px;
+                margin-top: 40px;
+            }
+             .info-section h3 {
+                font-size: 1.5em; /* Scale down headings */
+            }
+            .sfx-organization-section h4,
+            .music-sop-section h4 {
+                font-size: 1.2em;
+            }
+            .music-theme-entry h5 {
+                font-size: 1.15em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px 15px;
+                margin-top: 15px;
+                margin-bottom: 20px;
+                border-radius: var(--border-radius-md); /* Smaller radius on small screens */
+            }
+            .header h1 {
+                font-size: 1.9em;
+            }
+            .header p {
+                font-size: 1em;
+            }
+            .sfx-category summary {
+                font-size: 1em; /* Smaller summary text */
+                padding: 15px;
+            }
+             .sfx-category summary .summary-icon {
+                width: 20px;
+                height: 20px;
+            }
+            .sfx-content {
+                padding: 15px;
+            }
+            .sfx-content li {
+                font-size: 0.9em;
+                padding-left: 22px;
+            }
+             .info-section {
+                padding: 20px 15px;
+            }
+             .info-section h3 {
+                font-size: 1.3em;
+            }
+            .sfx-organization-section h4,
+            .music-sop-section h4 {
+                 font-size: 1.1em;
+            }
+            .sfx-folder-entry p, .sfx-folder-entry li,
+            .music-sop-section ol.procedure-list li,
+            .music-theme-entry p,
+            .music-theme-entry ul li {
+                 font-size: 0.92em; /* Slightly larger than 0.9 for readability */
+            }
+            .music-theme-entry h5 {
+                font-size: 1.05em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>SFX Search & Organization Cheat Sheet</h1>
+            <p>Your go-to guide for finding and organizing sound effects and music for your edits.</p>
+        </header>
+
+        <!-- SFX Search Categories START -->
+        <details class="sfx-category" open>
+            <summary>
+                <span class="summary-title">1. Text Appears (Pop, Fade, Slide, Type)</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>UI click, simple click</li>
+                    <li>pop sound, soft pop</li>
+                    <li>blip, short blip</li>
+                    <li>typewriter key, keyboard click</li>
+                    <li>text reveal, digital reveal</li>
+                    <li>data pop, info pop</li>
+                    <li>swoosh short, quick whoosh (for slide)</li>
+                    <li>fade in sound (for fade)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">2. Camera Pushes / Maps Zoom In or Out</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>cinematic whoosh, deep whoosh</li>
+                    <li>whoosh rise, riser whoosh</li>
+                    <li>fast swoosh, quick whip</li>
+                    <li>zoom in fx, zoom out fx</li>
+                    <li>air pass by, wind rush</li>
+                    <li>subtle movement, low rumble (for slow push)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">3. Scene Change / B-Roll Cut / Chart Transition</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>transition whoosh, smooth whoosh</li>
+                    <li>swipe sound, whip pan sfx</li>
+                    <li>swoosh, soft swoosh</li>
+                    <li>riser short, tension riser</li>
+                    <li>slide whoosh, data slide</li>
+                    <li>glitch transition, digital stutter</li>
+                    <li>camera shutter (for quick cuts)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">4. Dramatic Reveal (Stat, Title, Punchy Visual)</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>impact hit, punchy impact</li>
+                    <li>cinematic boom, deep boom</li>
+                    <li>bass drop, sub drop</li>
+                    <li>whoosh to hit, swoosh impact</li>
+                    <li>percussion hit, orchestral hit</li>
+                    <li>stinger, accent sound</li>
+                    <li>dark drone (for building tension before reveal)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">5. Timeline / History Flashback</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>tape rewind, vhs rewind</li>
+                    <li>film reel, film projector sound</li>
+                    <li>vintage projector click</li>
+                    <li>clock tick, grandfather clock</li>
+                    <li>old radio fx, radio static</li>
+                    <li>harp glissando, ethereal sweep (for dreamy flashback)</li>
+                    <li>reverse cymbal, reverse piano</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">6. Futuristic Interface / Techy Data / Cleo Abram-style Visual</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>futuristic UI, hi-tech UI</li>
+                    <li>sci-fi beep, computer beep</li>
+                    <li>digital interface, HUD sound</li>
+                    <li>hologram whoosh, hologram activate</li>
+                    <li>glitch pop, digital glitch</li>
+                    <li>data stream, server hum</li>
+                    <li>power up, power down sfx</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">7. Emphasize a Point in Voiceover (Micro Movement or Detail)</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>tick, subtle tick</li>
+                    <li>click soft, mouse click gentle</li>
+                    <li>notch, small notch</li>
+                    <li>ping, subtle ping</li>
+                    <li>pop subtle, soft pop</li>
+                    <li>pencil scratch, pen writing</li>
+                    <li>highlight sound, selection sound</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">8. Ambient Background (to make it not feel empty under VO)</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>SFX Search Terms:</h3>
+                <ul>
+                    <li>room tone, quiet room</li>
+                    <li>office ambience, distant typing</li>
+                    <li>city sound, urban ambience (distant)</li>
+                    <li>nature ambience, gentle wind, birds distant</li>
+                    <li>subtle background noise, low hum</li>
+                    <li>library atmosphere, coffee shop distant</li>
+                    <li>computer fan, server room hum (for tech contexts)</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="sfx-category">
+            <summary>
+                <span class="summary-title">9. Common SFX Search Modifiers</span>
+                <svg class="summary-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/></svg>
+            </summary>
+            <div class="sfx-content">
+                <h3>Combine with primary terms:</h3>
+                <ul>
+                    <li>short or long</li>
+                    <li>fast or slow</li>
+                    <li>clean or dirty or distorted</li>
+                    <li>subtle or impactful or punchy</li>
+                    <li>digital or organic or acoustic</li>
+                    <li>light or heavy or deep</li>
+                    <li>single or multiple or swarm</li>
+                    <li>bright or dark or muffled</li>
+                    <li>rising or falling</li>
+                    <li>cinematic or game or UI</li>
+                </ul>
+                <p style="margin-top:15px; font-size:0.9em; color:var(--text-muted-color);"><em>Example: "whoosh short clean" or "impact deep cinematic"</em></p>
+            </div>
+        </details>
+        <!-- SFX Search Categories END -->
+
+
+        <!-- SFX Folder Organization Section START -->
+        <div class="info-section sfx-organization-section">
+            <h3>Organizing Your SFX Library: Why and How</h3>
+            <p>A well-structured SFX library saves immense time. Understanding <strong>why</strong> each folder exists helps maintain organization as your collection grows. Here’s a practical and scalable structure:</p>
+
+            <h4>Core Folders:</h4>
+
+            <div class="sfx-folder-entry">
+                <p><strong>1. Ambience/</strong></p>
+                <p><strong>Why?</strong> Sets the <em>background tone or environment</em> of a scene. Creates space or mood, not tied to specific actions.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Nature/ (birds, wind, rain, forest)</li>
+                    <li>City/ (traffic, murmurs, distant sirens)</li>
+                    <li>Indoors/ (room tone, office hum, AC)</li>
+                    <li>SciFi_Fantasy/ (spaceship hums, magical atmospheres)</li>
+                </ul>
+                <p><em>Use when: You need a background layer or environmental setting.</em></p>
+            </div>
+
+            <div class="sfx-folder-entry">
+                <p><strong>2. Foley/</strong></p>
+                <p><strong>Why?</strong> Covers everyday human or physical interactions—<em>realistic movement or object sounds.</em></p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Footsteps/ (wood, snow, concrete)</li>
+                    <li>Clothing/ (rustling, jacket zips)</li>
+                    <li>Object_Handling/ (book pickup, bag drop)</li>
+                    <li>Body_Impacts/ (punches, body falls)</li>
+                    <li>Bone_Cracks/ (crunches, breaking FX)</li>
+                </ul>
+                <p><em>Use when: You need realistic, close-up detail mimicking real-world actions.</em></p>
+            </div>
+
+            <div class="sfx-folder-entry">
+                <p><strong>3. Interface_UI/</strong></p>
+                <p><strong>Why?</strong> Sounds triggered by digital actions—clicks, beeps, swipes. Used in apps, games, tech scenes.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Clicks/ (mouse, keyboard, soft taps)</li>
+                    <li>Alerts/ (error sounds, pop-up tones)</li>
+                    <li>Typing/ (keys, data entry)</li>
+                    <li>Transitions/ (swipes, menu slides)</li>
+                </ul>
+                <p><em>Use when: Working on user interfaces or techy elements (games, apps, HUDs).</em></p>
+            </div>
+
+             <div class="sfx-folder-entry">
+                <p><strong>4. Weapons/</strong></p>
+                <p><strong>Why?</strong> Any combat-related sounds. Crucial for action, military, or fantasy.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Guns/ (shots, reloads, handling)</li>
+                    <li>Explosions/ (bombs, grenades, blasts)</li>
+                    <li>Melee/ (swords, punches, bat hits, impacts)</li>
+                    <li>SciFi_Weapons/ (lasers, plasma, magic attacks)</li>
+                </ul>
+                <p><em>Use when: Adding action or fight scenes.</em></p>
+            </div>
+
+             <div class="sfx-folder-entry">
+                <p><strong>5. Creatures/</strong></p>
+                <p><strong>Why?</strong> Any non-human living sound, real or imagined. Adds character and life.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Roars/ (lions, dragons, monsters)</li>
+                    <li>Growls/ (dogs, beasts, threats)</li>
+                    <li>Vocalizations/ (snarls, screeches, chirps)</li>
+                    <li>Fantasy_Sounds/ (alien chatter, monster specific)</li>
+                </ul>
+                <p><em>Use when: Working on fantasy, horror, wildlife, or creature features.</em></p>
+            </div>
+
+             <div class="sfx-folder-entry">
+                <p><strong>6. Movements/</strong></p>
+                <p><strong>Why?</strong> Sounds created by moving objects or energy—expressive <em>motion-based FX,</em> not just background.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Flybys/ (planes, energy swipes, pass-bys)</li>
+                    <li>Swings/ (whoosh of arms, weapons, objects)</li>
+                    <li>Risers/ (tension build-up, pitch increases)</li>
+                    <li>Drops/ (dramatic falls, crashes, impacts)</li>
+                </ul>
+                <p><em>Use when: You need to emphasize motion, momentum, or build tension.</em></p>
+            </div>
+
+            <div class="sfx-folder-entry">
+                <p><strong>7. Transitions/</strong></p>
+                <p><strong>Why?</strong> Sounds that help switch scenes, shots, or actions—common in editing, trailers, motion graphics.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Whooshes/ (fast motion, scene cuts)</li>
+                    <li>Swooshes/ (sweeping softer sounds)</li>
+                    <li>Sweeps/ (longer, often tonal transitions)</li>
+                    <li>Cinematic_Transitions/ (layered complex FX for cuts)</li>
+                     <li>Glitches/Stutters (digital or stylized cuts)</li>
+                </ul>
+                <p><em>Use when: Moving between scenes, graphics, or states.</em></p>
+            </div>
+
+            <div class="sfx-folder-entry">
+                <p><strong>8. Impacts/</strong></p>
+                <p><strong>Why?</strong> Any hit or collision sound—used for emphasis, energy, or rhythm.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Metal/ (clanks, drops, scrapes)</li>
+                    <li>Organic/ (thuds, body falls, squishes)</li>
+                    <li>Cartoon/ (exaggerated pops, boinks, pings)</li>
+                    <li>Heavy_Hits/ (dramatic slams, punches, deep booms)</li>
+                </ul>
+                <p><em>Use when: Something hits something else, or for punchy emphasis.</em></p>
+            </div>
+
+            <div class="sfx-folder-entry">
+                <p><strong>9. Electric_Mechanical/</strong></p>
+                <p><strong>Why?</strong> Mechanical noises, electricity, or powered devices—great for sci-fi, tech, or machinery.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Electricity/ (zaps, hums, sparks, power surges)</li>
+                    <li>Glitches/ (digital distortion, stutters - <em>can overlap with Transitions</em>)</li>
+                    <li>Machines/ (motors, levers, servos, hydraulics)</li>
+                    <li>Robotics/ (specific robot movements, sounds)</li>
+                </ul>
+                <p><em>Use when: Adding tech, sci-fi, industrial, or machine-related sounds.</em></p>
+            </div>
+
+             <div class="sfx-folder-entry">
+                <p><strong>10. Misc/ (or Uncategorized/)</strong></p>
+                <p><strong>Why?</strong> A place for <em>uncategorized, unique, or one-off sounds</em> that don’t clearly belong elsewhere. Helps keep main folders clean.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Tings/Chimes (single bell dings, notifications)</li>
+                    <li>Heartbeats (literal or tension builders)</li>
+                    <li>Camera_Sounds (shutter clicks, flashes, focus)</li>
+                    <li>Experimental/Abstract (sounds you might sort later)</li>
+                </ul>
+                <p><em>Use when: You're unsure where it fits, or it’s a very specific, rare sound. Revisit periodically to sort.</em></p>
+            </div>
+
+            <div class="sfx-folder-entry">
+                <p><strong>11. Favorites/ (or GoTo_SFX/)</strong></p>
+                <p><strong>Why?</strong> Your personal best or most frequently used SFX. Saves searching time for common needs.</p>
+                <p><strong>Examples inside:</strong></p>
+                <ul>
+                    <li>Your go-to whoosh</li>
+                    <li>Favorite UI click</li>
+                    <li>Best cinematic hit</li>
+                    <li>Most used riser</li>
+                </ul>
+                <p><em>Use when: You need speed and rely on familiar, effective sounds. Copy (don't move) favorites here.</em></p>
+            </div>
+
+
+            <h4>Bonus / Specialized Folders (Add As Needed):</h4>
+
+            <div class="sfx-folder-entry">
+                <p><strong>12. Music_Cues/Stingers/</strong></p>
+                <p><strong>Why?</strong> Short musical elements used like SFX (not full tracks).</p>
+                <p><strong>Examples:</strong> Intro/outro jingles, dramatic stings, tonal transitions, risers/drops.</p>
+            </div>
+
+            <div class="sfx-folder-entry">
+                <p><strong>13. Vehicles/</strong></p>
+                <p><strong>Why?</strong> Dedicated folder if projects often involve cars, aircraft, boats, etc.</p>
+                <p><strong>Examples:</strong> Engine revs, tire screeches, flybys, horns, door slams.</p>
+            </div>
+
+             <div class="sfx-folder-entry">
+                <p><strong>14. Magic_SciFi_Effects/</strong></p>
+                 <p><strong>Why?</strong> Specific fantasy or sci-fi effects beyond basic UI/Movement.</p>
+                <p><strong>Examples:</strong> Spell casts, magical bursts, teleportation, time warps, force fields.</p>
+            </div>
+
+             <div class="sfx-folder-entry">
+                <p><strong>15. Voice_FX/ (or Processed_Vocals/)</strong></p>
+                 <p><strong>Why?</strong> Heavily stylized vocal sounds (not raw dialogue).</p>
+                <p><strong>Examples:</strong> Monster growls (if not in Creatures), ghost whispers, robot voices, processed screams/laughs.</p>
+            </div>
+
+             <div class="sfx-folder-entry">
+                <p><strong>16. Crowd_Reactions/</strong></p>
+                <p><strong>Why?</strong> Group sounds, audience reactions.</p>
+                <p><strong>Examples:</strong> Applause, booing, laughter, gasps, large group murmurs (distinct from Ambience).</p>
+            </div>
+
+            <div class="sfx-folder-entry">
+                <p><strong>17. Glitches_Distortion/</strong> (if not covered elsewhere)</p>
+                <p><strong>Why?</strong> Stylized digital errors, horror effects, tech fails.</p>
+                <p><strong>Examples:</strong> Bitcrushing, audio tears, data corruption sounds, digital decay.</p>
+            </div>
+
+            <div class="sfx-folder-entry">
+                <p><strong>18. Drones_Pads/</strong></p>
+                 <p><strong>Why?</strong> Long, tonal, or textural sounds for sustained mood/tension (overlaps with Ambience but often more designed).</p>
+                <p><strong>Examples:</strong> Sci-fi hums, horror drone beds, subtle tension layers, atmospheric pads.</p>
+            </div>
+
+            <h4>How to Decide What You Need:</h4>
+            <ul>
+                <li><strong>Start Simple:</strong> Begin with the Core Folders. Don't create empty folders you don't need yet.</li>
+                <li><strong>Add Incrementally:</strong> When you notice you have 5+ sounds of a specific type accumulating in `Misc/` or a Core Folder (e.g., lots of vehicle sounds in `Misc/`), create a dedicated folder (like `Vehicles/`).</li>
+                <li><strong>Be Consistent:</strong> Once you decide on a structure, stick to it.</li>
+                <li><strong>Use `Misc/` Wisely:</strong> It's okay to put things in `Misc/` temporarily, but try to sort them later if a pattern emerges.</li>
+                <li><strong>Scalability is Key:</strong> This structure allows you to add more specific folders later without breaking the overall logic (e.g., adding `Horror/` if you start doing horror projects).</li>
+            </ul>
+        </div>
+        <!-- SFX Folder Organization Section END -->
+
+        <!-- Background Music SOP Section START -->
+        <div class="info-section music-sop-section">
+            <h3>Standard Operating Procedure (SOP): Background Music Selection by Video Theme</h3>
+            <p><strong>Objective:</strong> To guide creators in efficiently selecting appropriate, high-quality background music that enhances the intended tone and message of their video content, based on 12 common thematic categories.</p>
+            <p><strong>Audience:</strong> All video creators, particularly those new to selecting background music or seeking to improve their workflow.</p>
+        
+            <h4>General Procedure for Music Selection:</h4>
+            <ol class="procedure-list">
+                <li>Identify Your Video's Primary Theme: Match your video topic to one of the 12 themes listed below.</li>
+                <li>Understand the Target Emotion: Note the "Desired Viewer Emotion (Tone)" for your chosen theme. This is the feeling your music should help create.</li>
+                <li>Recognize Key Musical Qualities: Review the "Musical Qualities to Listen For (Music Style)" to understand the type of instrumentation, tempo, and complexity that works best.</li>
+                <li>Utilize Optimized Search Keywords: Use the provided "Primary Search Keywords" in your preferred music licensing library (e.g., Epidemic Sound, Artlist, YouTube Audio Library, Storyblocks).</li>
+                <li>Refine with Secondary/Mood-Specific Keywords: If initial results aren't perfect, use "Secondary & Mood-Specific Keywords" or combine terms for more nuanced searches.</li>
+                <li>Listen & Evaluate: Always listen to potential tracks alongside a rough cut or script reading. Does it overpower the narration? Does it fit the pacing? Does it truly evoke the desired emotion without being distracting?</li>
+            </ol>
+        
+            <h4>Detailed Thematic Music Selection Guide:</h4>
+        
+            <div class="music-theme-entry">
+                <h5>1. Theme: Space / Universe</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Mysterious, vast, calm, awe-inspiring, wondrous.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Ambient textures, atmospheric pads, slow tempos, ethereal melodies, subtle sci-fi elements, echoing effects, deep bass frequencies. Avoid overly busy or aggressive tracks unless depicting a cosmic event.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>ambient space</li>
+                    <li>cosmic background</li>
+                    <li>sci-fi atmospheric</li>
+                    <li>ethereal universe</li>
+                    <li>vast ambient</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>mysterious space ambient</li>
+                    <li>awe-inspiring celestial</li>
+                    <li>calm deep space</li>
+                    <li>planetary soundscape</li>
+                    <li>nebula music</li>
+                    <li>zero gravity ambient</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “What If Earth Moved to Jupiter’s Orbit?”, “Facts About Black Holes”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>2. Theme: Science / Biology / Nature</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Curious, neutral, lightly educational, wondrous, informative.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Light, unobtrusive background music, minimal piano or acoustic guitar, soft string textures, gentle electronic elements, steady but calm rhythms. Clarity is key.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>science documentary</li>
+                    <li>nature underscore</li>
+                    <li>educational background</li>
+                    <li>calm informative</li>
+                    <li>neutral ambient</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>biology explain music</li>
+                    <li>curiosity background</li>
+                    <li>light piano documentary</li>
+                    <li>gentle discovery music</li>
+                    <li>soft tech background (for modern science)</li>
+                    <li>wildlife documentary calm</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “How Your Immune System Works”, “The Secret Life of Trees”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>3. Theme: What If / Hypothetical Scenarios</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Suspenseful, cinematic, curiosity-building, intriguing, slightly tense or wondrous.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Cinematic underscore, tracks with gradual build-ups, subtle tension, questioning or searching melodies, ambient textures with a sense of scale or mystery.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>cinematic suspense underscore</li>
+                    <li>hypothetical scenario music</li>
+                    <li>intrigue background</li>
+                    <li>curiosity building</li>
+                    <li>speculative ambient</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>what if cinematic</li>
+                    <li>mystery build-up</li>
+                    <li>tense ambient underscore</li>
+                    <li>thought-provoking music</li>
+                    <li>alternate reality soundscape</li>
+                    <li>epic discovery (for grander "what ifs")</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “What If You Stopped Drinking Water?”, “What If Dinosaurs Never Went Extinct?”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>4. Theme: Top 10 / List / Fun Facts</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Fun, energetic, upbeat, engaging, lighthearted.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Bouncy rhythms, cheerful melodies, modern corporate feel, ukulele, light funk, pizzicato strings, claps, snaps. Keep it moving and positive.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>upbeat background</li>
+                    <li>fun corporate</li>
+                    <li>happy instrumental</li>
+                    <li>energetic pop instrumental</li>
+                    <li>quirky background</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>playful listicle music</li>
+                    <li>positive facts music</li>
+                    <li>bouncy ukulele</li>
+                    <li>modern lighthearted</li>
+                    <li>engaging trivia music</li>
+                    <li>optimistic corporate</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “Top 10 Amazing Facts About Dreams”, “10 Things You Didn’t Know About the Ocean”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>5. Theme: Survival / Disaster Scenarios</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Tense, dramatic, urgent, suspenseful, serious, high-stakes.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Dark cinematic textures, pulsing rhythms, ominous drones, dissonant elements, strings creating tension, impactful percussion (used sparingly or for climaxes).</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>cinematic tension</li>
+                    <li>survival underscore</li>
+                    <li>dark dramatic background</li>
+                    <li>suspense thriller</li>
+                    <li>ominous ambient</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>disaster scenario music</li>
+                    <li>urgent build-up</li>
+                    <li>apocalyptic underscore</li>
+                    <li>high stakes cinematic</li>
+                    <li>thriller tension bed</li>
+                    <li>danger lurking music</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “How to Survive a Shark Attack”, “What If You Fell Into a Volcano?”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>6. Theme: Tech / AI / Future</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Modern, clean, innovative, slightly eerie (for AI), high-tech, sophisticated, hopeful or cautionary.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Electronic genres, synth-based melodies and pads, minimal tech beats, glitch effects (subtly), futuristic soundscapes, clean and precise sounds.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>futuristic electronic</li>
+                    <li>tech background</li>
+                    <li>AI ambient</li>
+                    <li>modern innovation music</li>
+                    <li>digital soundscape</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>cyberpunk ambient (for edgier tech)</li>
+                    <li>minimal tech corporate</li>
+                    <li>eerie AI music</li>
+                    <li>optimistic future tech</li>
+                    <li>sci-fi tech underscore</li>
+                    <li>data processing music</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “How AI Will Change the World”, “The Future of Human Augmentation”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>7. Theme: History / Conspiracy / Mystery</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Thoughtful, investigative, dark, mysterious, intriguing, sometimes melancholic or eerie.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Ambient cinematic, orchestral (strings, low brass), moody piano, historical-sounding instruments (if relevant), slow to mid-tempo, sense of discovery or unease.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>mystery documentary</li>
+                    <li>investigative underscore</li>
+                    <li>dark ambient cinematic</li>
+                    <li>historical mystery</li>
+                    <li>conspiracy theory music</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>ancient secrets music</li>
+                    <li>unsolved mystery background</li>
+                    <li>moody piano cinematic</li>
+                    <li>eerie historical</li>
+                    <li>thoughtful investigation</li>
+                    <li>cinematic clues music</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “The Mystery of the Lost City of Atlantis”, “Why the Pyramids Still Confuse Scientists”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>8. Theme: Emotional / Motivational / Deep</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Reflective, touching, hopeful, inspiring, soft, uplifting, empathetic.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Soft piano, emotive strings, soaring melodies (for uplift), slow ambient textures, gentle acoustic guitar, tracks that build emotionally.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>emotional piano</li>
+                    <li>inspirational background</li>
+                    <li>hopeful cinematic</li>
+                    <li>motivational underscore</li>
+                    <li>reflective ambient</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>uplifting strings</li>
+                    <li>touching moments music</li>
+                    <li>gentle inspiring</li>
+                    <li>deep thought background</li>
+                    <li>empathy piano</li>
+                    <li>calm cinematic hopeful</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “Why Gratitude Changes Your Brain”, “The Power of Forgiveness”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>9. Theme: Psychology / Mind / Behavior</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Calm, neutral, lightly intriguing, thoughtful, analytical.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Subtle ambient textures, smooth electronic elements, soft piano, minimal patterns, music that encourages focus without being distracting.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>psychology background</li>
+                    <li>mind focus music</li>
+                    <li>neutral ambient calm</li>
+                    <li>behavioral science music</li>
+                    <li>thoughtful underscore</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>brain function music</li>
+                    <li>intriguing minimal ambient</li>
+                    <li>soft electronic calm</li>
+                    <li>human behavior documentary</li>
+                    <li>cognitive process music</li>
+                    <li>analytical background</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “How Your Brain Makes Decisions”, “The Science of Dreams”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>10. Theme: Documentary-Style / Informative (General)</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Balanced, professional, factual, objective, clear.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Neutral background music, minimal instrumentation, steady but unobtrusive rhythms, avoiding strong emotional pulls. The music should support information, not dictate emotion.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>documentary background neutral</li>
+                    <li>informative underscore</li>
+                    <li>factual presentation music</li>
+                    <li>neutral corporate</li>
+                    <li>unbiased background</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>explainer video music</li>
+                    <li>educational neutral</li>
+                    <li>light instrumental professional</li>
+                    <li>clear information music</li>
+                    <li>balanced documentary bed</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “How Planes Fly”, “The History of the Internet”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>11. Theme: Kids / Playful / Fun for Younger Audiences</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Playful, fun, silly, curious, cheerful, innocent.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Ukulele, xylophone, marimba, pizzicato strings, simple and catchy melodies, playful rhythms, light percussion, sound effects (whistles, boings) if appropriate for visuals.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>kids background music</li>
+                    <li>playful instrumental</li>
+                    <li>cartoon fun music</li>
+                    <li>happy ukulele</li>
+                    <li>quirky children</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>silly kids music</li>
+                    <li>fun educational kids</li>
+                    <li>cheerful animation music</li>
+                    <li>bouncy xylophone</li>
+                    <li>innocent playful melody</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “Why Do We Yawn?”, “10 Funny Animal Facts”</p>
+            </div>
+        
+            <div class="music-theme-entry">
+                <h5>12. Theme: Myths / Fiction / Fantasy Explains</h5>
+                <p><strong>Desired Viewer Emotion (Tone):</strong> Magical, epic, mystical, adventurous, wondrous, sometimes ancient or mysterious.</p>
+                <p><strong>Musical Qualities to Listen For (Music Style):</strong> Orchestral (sweeping strings, brass fanfares), fantasy ambient, world music influences (flutes, tribal drums, unique percussion), choirs, magical chimes, harps.</p>
+                <p><strong>Primary Search Keywords:</strong></p>
+                <ul>
+                    <li>fantasy background music</li>
+                    <li>epic adventure orchestral</li>
+                    <li>magical cinematic</li>
+                    <li>mythical ambient</li>
+                    <li>legend underscore</li>
+                </ul>
+                <p><strong>Secondary & Mood-Specific Keywords:</strong></p>
+                <ul>
+                    <li>mystical world music</li>
+                    <li>ancient fantasy</li>
+                    <li>dragon quest music (or similar specific creature)</li>
+                    <li>enchanted forest ambient</li>
+                    <li>heroic journey orchestral</li>
+                    <li>wondrous magical</li>
+                </ul>
+                <p><strong>Example Video Topics:</strong> “What If Dragons Were Real?”, “The Legend of the Phoenix”</p>
+            </div>
+        
+            <p class="final-check">
+                <strong>Final Check:</strong> Once you've found a track, ask: "If I muted the narration, would the music alone tell a similar emotional story to my video's theme?" If yes, you're likely on the right track.
+            </p>
+        </div>
+        <!-- Background Music SOP Section END -->
+
+        <!-- Quick Tips Section START -->
+        <div class="info-section general-tips-section">
+            <h3>Quick Tips for Effective SFX Usage</h3>
+            <ul>
+                <li><strong>Context is King:</strong> The best SFX feels natural and enhances the visual, rather than distracting from it.</li>
+                <li><strong>Less is More:</strong> Don't overcrowd your audio. A few well-placed, high-quality sounds are better than many mediocre ones.</li>
+                <li><strong>Layering:</strong> Combine multiple subtle sounds to create a richer, more unique effect (e.g., a whoosh + a subtle metallic shimmer).</li>
+                <li><strong>Volume & EQ:</strong> Always adjust the volume and EQ of your SFX to sit well in the mix with dialogue, music, and other sounds. Don't let SFX overpower dialogue.</li>
+                <li><strong>Stereo Field:</strong> Use panning to match SFX to on-screen action (e.g., a car passing from left to right).</li>
+                <li><strong>Experiment:</strong> Try different sounds for the same action. Sometimes the unexpected choice works best.</li>
+                <li><strong>Consistency:</strong> If you use a particular sound for a recurring element (like a specific type of text animation), try to use it consistently.</li>
+            </ul>
+        </div>
+        <!-- Quick Tips Section END -->
+
+        <!-- Bonus Tip Section START -->
+        <div class="info-section bonus-tip">
+            <h3>Bonus Tip: Sound Libraries</h3>
+            <p>Use libraries like Artlist, Epidemic Sound, Mixkit, or Envato Elements. They often suggest related terms and have high-quality, curated collections that can speed up your search significantly! Many also offer SFX alongside music licenses.</p>
+        </div>
+         <!-- Bonus Tip Section END -->
+
+    </div>
+</body>
+</html>
